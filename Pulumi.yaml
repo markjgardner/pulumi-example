@@ -8,4 +8,4 @@ template:
       default: public
     locations:
       description: Comma-separated list of location aliases
-      default: westus,westeurope
+      default: eastus,westus

@@ -1,0 +1,2 @@
+config:
+  azure-ts-serverless-url-shorterner-global:locations: eastus,westus
