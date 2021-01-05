@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>pulumi_cosmos_functions</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="pulumi" Version="2.16.2" />
+    <PackageReference Include="pulumi.azure" Version="3.41.0" />
+  </ItemGroup>
+
+</Project>
