@@ -1,0 +1,11 @@
+name: pulumi-azure-serverless-example
+runtime: dotnet
+description: Azure functions backed by CosmosDB
+template:
+  config:
+    azure:environment:
+      description: The Azure environment to use (`public`, `usgovernment`, `german`, `china`)
+      default: public
+    Location:
+      description: The region where the resources will be provisioned
+      default: eastus
