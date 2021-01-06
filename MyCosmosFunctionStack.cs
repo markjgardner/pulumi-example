@@ -12,7 +12,10 @@ namespace pulumi_cosmos_functions
   {
     public MyCosmosFunctionStack() 
     {
-      var rg = new ResourceGroup("mjgpulumiexample-rg", new ResourceGroupArgs { Location = "EastUS"});
+      var config = new Config();
+      var location = config.Require("Location");
+
+      var rg = new ResourceGroup("mjgpulumiexample-rg", new ResourceGroupArgs { Location = location});
 
       // CosmosDB
       var comsos = new CosmosDB.Account("mjgpulumidb", new CosmosDB.AccountArgs
@@ -23,7 +26,7 @@ namespace pulumi_cosmos_functions
         },
         GeoLocations = new List<CosmosDB.Inputs.AccountGeoLocationArgs> {
           new CosmosDB.Inputs.AccountGeoLocationArgs {
-            Location = "EastUS",
+            Location = location,
             FailoverPriority = 0
           }
         },
@@ -36,11 +39,13 @@ namespace pulumi_cosmos_functions
       });
 
       var database = new CosmosDB.SqlDatabase("pulumi-db", new CosmosDB.SqlDatabaseArgs {
+        Name = "pulumi-db",
         ResourceGroupName = rg.Name,
         AccountName = comsos.Name
       });
 
       var collection = new CosmosDB.SqlContainer("functiondocs", new CosmosDB.SqlContainerArgs {
+        Name = "functiondocs",
         ResourceGroupName = rg.Name,
         AccountName = comsos.Name,
         DatabaseName = database.Name
@@ -51,10 +56,6 @@ namespace pulumi_cosmos_functions
         ResourceGroupName = rg.Name,
         AccountReplicationType = "LRS",
         AccountTier = "Standard"
-      });
-
-      var container = new Storage.Container("cosmosfunction", new Storage.ContainerArgs {
-        StorageAccountName = storage.Name
       });
 
       // Function App
@@ -79,6 +80,10 @@ namespace pulumi_cosmos_functions
         StorageAccountAccessKey = storage.PrimaryAccessKey,
         Version = "~3",
         OsType = "linux",
+        SiteConfig = new FunctionAppSiteConfigArgs
+        {
+          AlwaysOn = true
+        }
       });
     }
   }
